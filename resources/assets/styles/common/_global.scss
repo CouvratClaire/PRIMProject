@@ -1,0 +1,27 @@
+body {
+  background: white;
+}
+
+.row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin: 0;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl {
+  &.big {
+    max-width: 1300px;
+  }
+}
