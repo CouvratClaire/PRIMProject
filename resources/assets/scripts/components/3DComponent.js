@@ -17,10 +17,19 @@ function CanvasContainer(el) {
   self.sceneName = data.scenename;
   self.hdri = data.hdri;
   self.lights = data.lights;
+  self.image = $(".canvasImage")[0];
+  self.$image = $(self.image);
+  self.width = self.$image.width();
+  self.height = self.$image.height();
 
   console.log(self.hdri);
 
-  self.init();
+  self.$image.on("click", function () {
+    self.$image.css("display", "none");
+    self.init();
+  });
+
+  // self.init();
 }
 
 CanvasContainer.prototype.init = function () {
@@ -158,17 +167,19 @@ CanvasContainer.prototype.addBackground = function ({ scene }) {
 
 CanvasContainer.prototype.getRenderer = function ({ castShadow }) {
   var self = this;
-  const width = self.$el.innerWidth();
+  // const width = self.$el.innerWidth();
   // const height = self.$el.innerHeight();
-  const proportion = window.innerWidth / window.innerHeight;
+
+  console.log(self.width, self.height);
+  // const proportion = self.width/ self.height;
   var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setClearColor(0xfffffff, 0); // the default
   renderer.autoClear = true;
   if (window.innerWidth < 770) {
-    renderer.setSize(width, width / (2 * proportion));
+    renderer.setSize(self.width, self.height);
     self.$el.css("display", "block");
   } else {
-    renderer.setSize((width * 2) / 3, (width * 2) / (3 * proportion));
+    renderer.setSize(self.width, self.height);
   }
   //allow shadows
   if (castShadow) {
@@ -245,8 +256,9 @@ CanvasContainer.prototype.lightSetUp = function ({
 };
 
 CanvasContainer.prototype.cameraSetUp = function () {
+  const self = this;
   const fov = 75;
-  const aspect = window.innerWidth / window.innerHeight; // the canvas default
+  const aspect = self.width / self.height; // the canvas default
   const near = 0.1;
   const far = 100;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
@@ -259,13 +271,13 @@ CanvasContainer.prototype.cameraSetUp = function () {
   window.addEventListener(
     "resize",
     function () {
-      if (window.innerWidth < 770) {
-        camera.aspect = window.innerWidth / (window.innerHeight * 2);
-        camera.updateProjectionMatrix();
-      } else {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-      }
+      // if (window.innerWidth < 770) {
+      //   camera.aspect = window.innerWidth / (window.innerHeight * 2);
+      //   camera.updateProjectionMatrix();
+      // } else {
+      //   camera.aspect = window.innerWidth / window.innerHeight;
+      //   camera.updateProjectionMatrix();
+      // }
       //renderer.setSize(window.innerWidth, window.innerHeight);
     },
     false

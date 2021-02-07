@@ -14,7 +14,9 @@ function AnimClick(el) {
   self.el = el;
   self.$el = $(el);
   self.link = $(el).find("a");
-  console.log(self.link);
+
+  self.overlay = $(".overlay")[0];
+  self.url = self.link.attr("href");
   self.init();
 }
 
@@ -23,7 +25,7 @@ AnimClick.prototype.init = function () {
   if (self.link.length > 0) {
     var link = self.link[0];
     var $link = $(link);
-    console.log("link", $link);
+    self.url = $link.attr("href");
     $link.on("click", function (e) {
       e.preventDefault();
       self.startAnimation($link);
@@ -40,6 +42,34 @@ AnimClick.prototype.startAnimation = function () {
   var width = self.$el.width();
   $(".faker").addClass(className);
   $(".faker").width(width).height(self.$el.height());
-  self.$el.css({ position: "absolute", top: position.top });
+  self.$el.css({ position: "absolute", top: position.top, zIndex: 2 });
   self.$el.width($(".faker").width());
+  var newWidth = (($(window).width() - 100) * 60) / 100;
+
+  self.$el.animate(
+    {
+      width: newWidth,
+      paddingRight: "10px",
+      paddingLeft: "150px",
+      left: 0,
+    },
+    { duration: 1000, queue: false }
+  );
+  console.log("OVERLAY", $(self.overlay));
+
+  $(self.overlay).css("z-index", 1);
+  $(self.overlay).animate(
+    {
+      opacity: 1,
+    },
+    { duration: 500, queue: false }
+  );
+
+  setTimeout(function () {
+    console.log("coucou");
+    console.log("/?" + self.url.split("/?")[1]);
+    // window.location.href = "/?" + self.url.split("/?")[1];
+    // window.location.replace(self.url);
+    window.location = "/?" + self.url.split("/?")[1];
+  }, 2000);
 };

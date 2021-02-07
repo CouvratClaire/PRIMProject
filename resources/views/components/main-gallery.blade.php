@@ -11,7 +11,7 @@
         <?php $page = get_page_by_title($object['name']); ?>
         <div class="gallery_item-{{$key%2}} anim-on-click">
           @if($page->guid)
-          <a href="{{$page->guid}}">
+          <a class="item-click" href="{{$page->guid}}">
             <img class="gallery_image" src="{{$object['image']}}" />
           </a>
           @else
@@ -25,7 +25,7 @@
         <?php $page = get_page_by_title($object['name']); ?>
         <div class="gallery_item-{{$key%2}} anim-on-click">
           @if($page->guid)
-          <a href="{{$page->guid}}">
+          <a class="item-click" href="{{$page->guid}}">
             <img class="gallery_image" src="{{$object['image']}}" />
           </a>
           @else

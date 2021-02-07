@@ -15,7 +15,6 @@ function Menu(el) {
   self.$el = $(el);
   $(window).on("scroll", function () {
     var scroll = $(window).scrollTop();
-    console.log(scroll);
     if (scroll > 40 && !self.$el.hasClass("is-scrolling")) {
       self.$el.addClass("is-scrolling");
     }
