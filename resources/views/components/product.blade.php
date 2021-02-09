@@ -1,5 +1,5 @@
 <article @php post_class() @endphp>
-    <div class="entry-summary">
+    <div class="entry-summary preparation">
         <?php
         $descriptionENG = get_field("english_description");
         $descriptionFR = get_field("french_description");
@@ -9,18 +9,25 @@
         ?>
         <div class="containerInside columns">
             <div class="column-big">
-                @foreach($images as $image)
+                @foreach($images as $key => $image)
 
                 @if($image['image']['is_3d'])
                 @include('partials.three-components', [
                 'item' => $image['image']['3d_data'],
                 'image' => $image['image']['image_url'],
+                'first' => $key === 0,
                 ])
 
+                @else
+                @if($key === 0)
+                <div class="imageContainer visible">
+                    <img src="{{$image['image']['image_url']}}" width="100%">
+                </div>
                 @else
                 <div class="imageContainer">
                     <img src="{{$image['image']['image_url']}}" width="100%">
                 </div>
+                @endif
                 @endif
 
                 @endforeach

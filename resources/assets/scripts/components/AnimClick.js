@@ -52,11 +52,14 @@ AnimClick.prototype.startAnimation = function () {
       paddingRight: "10px",
       paddingLeft: "150px",
       left: 0,
+      top: "30px",
     },
     { duration: 1000, queue: false }
   );
   console.log("OVERLAY", $(self.overlay));
+  // window.scroll(0, 0);
 
+  // window.scrollTo(0, 0);
   $(self.overlay).css("z-index", 1);
   $(self.overlay).animate(
     {
@@ -64,6 +67,12 @@ AnimClick.prototype.startAnimation = function () {
     },
     { duration: 500, queue: false }
   );
+  $("html, body").animate({ scrollTop: "0" }, { duration: 1000, queue: false });
+
+  setTimeout(function () {
+    $("html").animate({ backgroundColor: "black" }, { duration: 500 });
+    $("body").animate({ opacity: 0 }, { duration: 500 });
+  }, 1000);
 
   setTimeout(function () {
     console.log("coucou");
@@ -71,5 +80,5 @@ AnimClick.prototype.startAnimation = function () {
     // window.location.href = "/?" + self.url.split("/?")[1];
     // window.location.replace(self.url);
     window.location = "/?" + self.url.split("/?")[1];
-  }, 2000);
+  }, 1500);
 };

@@ -8,6 +8,11 @@
     margin: 20px;
     margin-left: 0;
   }
+
+  &.visible {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .product-description {
@@ -55,4 +60,9 @@
 
 .imageContainer {
   padding-bottom: 40px;
+
+  &.visible {
+    position: relative;
+    z-index: 2;
+  }
 }

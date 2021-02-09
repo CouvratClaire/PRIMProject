@@ -11,7 +11,7 @@
       $directionalLight = get_field("directional_light");
       $spotlight = get_field("spotlight_light");
       $lightsArray = array("ambient" => $ambientLight, "directional" => $directionalLight, "spotlight" => $spotlight);
-      $lights = json_encode($lightsArray);      ?>
+      $lights = json_encode($lightsArray); ?>
 
      <div class="containerInside columns">
        <div class="column-big">
