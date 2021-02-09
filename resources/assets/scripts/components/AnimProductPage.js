@@ -1,21 +1,27 @@
+// Anim Product page on load
 var url = window.location.href;
-console.log(url);
 if (url.includes("page")) {
-  console.log("prepares");
-  document.documentElement.classList.add("preparation");
+  $("body").css("opacity", 0);
   window.onload = function () {
-    // $("body").show();
-    console.log("is prepared");
-    $(".overlay").addClass("on");
-    $(".overlay").animate(
-      {
-        opacity: 0,
-      },
-      { duration: 1000, queue: false }
-    );
+    $("body").animate({ opacity: 1 }, { duration: 300 });
     setTimeout(function () {
-      $(".overlay").removeClass("on");
+      //   $(".overlay").removeClass("on");
       $(".visible").removeClass("visible");
     }, 1000);
   };
+
+  $($(".home")[0]).on("click", function (e) {
+    e.preventDefault();
+    startHomeAnimation();
+    e.stopPropagation();
+  });
+}
+
+//Anim product page on click Home
+function startHomeAnimation() {
+  $("body").animate({ opacity: 0 }, { duration: 500 });
+
+  setTimeout(function () {
+    window.location = "/";
+  }, 500);
 }

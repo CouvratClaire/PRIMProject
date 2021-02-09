@@ -1,5 +1,5 @@
 /* -------------------------
-    INIT
+    INIT ANIM Click
 ------------------------- */
 
 $(window).on("load", function () {
@@ -56,10 +56,7 @@ AnimClick.prototype.startAnimation = function () {
     },
     { duration: 1000, queue: false }
   );
-  console.log("OVERLAY", $(self.overlay));
-  // window.scroll(0, 0);
 
-  // window.scrollTo(0, 0);
   $(self.overlay).css("z-index", 1);
   $(self.overlay).animate(
     {
@@ -70,15 +67,10 @@ AnimClick.prototype.startAnimation = function () {
   $("html, body").animate({ scrollTop: "0" }, { duration: 1000, queue: false });
 
   setTimeout(function () {
-    $("html").animate({ backgroundColor: "black" }, { duration: 500 });
-    $("body").animate({ opacity: 0 }, { duration: 500 });
+    $("body").animate({ opacity: 0 }, { duration: 300 });
   }, 1000);
 
   setTimeout(function () {
-    console.log("coucou");
-    console.log("/?" + self.url.split("/?")[1]);
-    // window.location.href = "/?" + self.url.split("/?")[1];
-    // window.location.replace(self.url);
     window.location = "/?" + self.url.split("/?")[1];
   }, 1500);
 };

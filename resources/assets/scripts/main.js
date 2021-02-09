@@ -13,6 +13,7 @@ import aboutUs from "./routes/about";
 require("./components/3DComponent");
 require("./components/Carousel");
 require("./components/AnimClick");
+require("./components/AnimHomePage");
 require("./components/AnimProductPage");
 require("./components/Menu");
 
