@@ -8,30 +8,17 @@
     <div class="container row big">
       <div class="column-double left">
         @foreach($firsthalf as $key => $object)
-        <?php $page = get_page_by_title($object['name']); ?>
-        <div class="gallery_item-{{$key%2}} anim-on-click">
-          @if($page->guid)
-          <a class="item-click" href="{{$page->guid}}">
-            <img class="gallery_image" src="{{$object['image']}}" />
-          </a>
-          @else
-          <img class="gallery_image" src="{{$object['image']}}" />
-          @endif
-        </div>
+        @include('partials.object-image', [
+        'object' => $object
+        ])
         @endforeach
+
       </div>
       <div class="column-double right">
         @foreach($secondhalf as $key => $object)
-        <?php $page = get_page_by_title($object['name']); ?>
-        <div class="gallery_item-{{$key%2}} anim-on-click">
-          @if($page->guid)
-          <a class="item-click" href="{{$page->guid}}">
-            <img class="gallery_image" src="{{$object['image']}}" />
-          </a>
-          @else
-          <img class="gallery_image" src="{{$object['image']}}" />
-          @endif
-        </div>
+        @include('partials.object-image', [
+        'object' => $object
+        ])
         @endforeach
       </div>
     </div>

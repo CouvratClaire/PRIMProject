@@ -28,10 +28,35 @@ AnimClick.prototype.init = function () {
     self.url = $link.attr("href");
     $link.on("click", function (e) {
       e.preventDefault();
+      self.hideVideo();
       self.startAnimation($link);
       e.stopPropagation();
     });
   }
+};
+
+AnimClick.prototype.hideVideo = function () {
+  var self = this;
+  var thevideo = self.$el.find(".thevideo").get(0);
+  var theimage = self.$el.find(".image").get(0);
+  $(thevideo).animate(
+    {
+      opacity: 0,
+    },
+    { duration: 100, queue: false }
+  );
+  setTimeout(function () {
+    $(theimage).animate(
+      {
+        opacity: 1,
+      },
+      { duration: 100, queue: false }
+    );
+    $(thevideo).css("display", "none");
+    $(theimage).css("display", "block");
+  }, 100);
+
+  thevideo.pause();
 };
 
 AnimClick.prototype.startAnimation = function () {

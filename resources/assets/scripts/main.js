@@ -16,6 +16,7 @@ require("./components/AnimClick");
 require("./components/AnimHomePage");
 require("./components/AnimProductPage");
 require("./components/Menu");
+require("./components/VideoPlay");
 
 /** Populate Router instance with DOM routes */
 const routes = new Router({
