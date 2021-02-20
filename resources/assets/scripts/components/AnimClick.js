@@ -26,11 +26,14 @@ AnimClick.prototype.init = function () {
     var link = self.link[0];
     var $link = $(link);
     self.url = $link.attr("href");
+
     $link.on("click", function (e) {
-      e.preventDefault();
-      self.hideVideo();
-      self.startAnimation($link);
-      e.stopPropagation();
+      if ($(window).innerWidth() > 780) {
+        e.preventDefault();
+        self.hideVideo();
+        self.startAnimation($link);
+        e.stopPropagation();
+      }
     });
   }
 };
@@ -39,24 +42,26 @@ AnimClick.prototype.hideVideo = function () {
   var self = this;
   var thevideo = self.$el.find(".thevideo").get(0);
   var theimage = self.$el.find(".image").get(0);
-  $(thevideo).animate(
-    {
-      opacity: 0,
-    },
-    { duration: 100, queue: false }
-  );
-  setTimeout(function () {
-    $(theimage).animate(
+  if (thevideo) {
+    $(thevideo).animate(
       {
-        opacity: 1,
+        opacity: 0,
       },
       { duration: 100, queue: false }
     );
-    $(thevideo).css("display", "none");
-    $(theimage).css("display", "block");
-  }, 100);
+    setTimeout(function () {
+      $(theimage).animate(
+        {
+          opacity: 1,
+        },
+        { duration: 100, queue: false }
+      );
+      $(thevideo).css("display", "none");
+      $(theimage).css("display", "block");
+    }, 100);
 
-  thevideo.pause();
+    thevideo.pause();
+  }
 };
 
 AnimClick.prototype.startAnimation = function () {
@@ -79,7 +84,7 @@ AnimClick.prototype.startAnimation = function () {
       left: 0,
       top: "30px",
     },
-    { duration: 1000, queue: false }
+    { duration: 500, queue: false }
   );
 
   $(self.overlay).css("z-index", 1);
@@ -89,13 +94,13 @@ AnimClick.prototype.startAnimation = function () {
     },
     { duration: 500, queue: false }
   );
-  $("html, body").animate({ scrollTop: "0" }, { duration: 1000, queue: false });
+  $("html, body").animate({ scrollTop: "0" }, { duration: 500, queue: false });
 
   setTimeout(function () {
     $("body").animate({ opacity: 0 }, { duration: 300 });
-  }, 1000);
+  }, 500);
 
   setTimeout(function () {
     window.location = "/?" + self.url.split("/?")[1];
-  }, 1500);
+  }, 1000);
 };

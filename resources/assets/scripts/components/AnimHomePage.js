@@ -3,7 +3,7 @@ var url = window.location.href;
 //if on main page
 if (!url.includes("page")) {
   var previousUrl = document.referrer;
-  if (previousUrl.length > 0) {
+  if (previousUrl.length > 0 && $(window).innerWidth() > 780) {
     $("body").css("opacity", 0);
   }
 
@@ -25,9 +25,10 @@ function AnimHomePage(el) {
   self.width = self.$parent.outerWidth();
   self.position = self.$parent.position();
 
-  $(".overlay").addClass("on");
-
-  self.anim();
+  if ($(window).innerWidth() > 780) {
+    $(".overlay").addClass("on");
+    self.anim();
+  }
 }
 
 AnimHomePage.prototype.anim = function () {

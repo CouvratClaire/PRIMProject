@@ -19,6 +19,7 @@ function CanvasContainer(el) {
   self.lights = data.lights;
   self.image = $(".canvasImage")[0];
   self.$image = $(self.image);
+  self.$closeButton = $(".closeCanvas");
   self.width = self.$image.width();
   self.height = self.$image.height();
 
@@ -26,7 +27,15 @@ function CanvasContainer(el) {
 
   self.$image.on("click", function () {
     self.$image.css("display", "none");
+    self.$closeButton.css("display", "block");
     self.init();
+  });
+
+  self.$closeButton.on("click", function () {
+    console.log("close");
+    $("canvas").remove();
+    self.$image.css("display", "block");
+    self.$closeButton.css("display", "none");
   });
 
   // self.init();

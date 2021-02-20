@@ -11,9 +11,11 @@ if (url.includes("page")) {
   };
 
   $($(".home")[0]).on("click", function (e) {
-    e.preventDefault();
-    startHomeAnimation();
-    e.stopPropagation();
+    if ($(window).innerWidth() > 780) {
+      e.preventDefault();
+      startHomeAnimation();
+      e.stopPropagation();
+    }
   });
 }
 

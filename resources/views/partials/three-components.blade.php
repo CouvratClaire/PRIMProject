@@ -10,13 +10,17 @@ $lights = json_encode($lightsArray);
 ?>
 @if($first)
 <div class="canvasContainer visible" data-castShadow="{{$castShadow}}" data-sceneName="{{$sceneName}}" data-hdri="{{$hdri}}" data-lights="{{$lights}}">
+    <img class="closeCanvas" src="@asset('images/close.svg')" width="30px">
     <div class="imageContainer">
+
         <img class="canvasImage" src="{{$image}}" width="100%">
     </div>
 </div>
 @else
 <div class="canvasContainer" data-castShadow="{{$castShadow}}" data-sceneName="{{$sceneName}}" data-hdri="{{$hdri}}" data-lights="{{$lights}}">
+    <img class="closeCanvas" src="@asset('images/close.svg')" width="30px">
     <div class="imageContainer">
+
         <img class="canvasImage" src="{{$image}}" width="100%">
     </div>
 </div>

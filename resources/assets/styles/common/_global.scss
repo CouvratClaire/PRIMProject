@@ -35,6 +35,10 @@ html {
 .containerInside {
   margin-left: 100px;
   margin-right: 100px;
+
+  // @media screen and (max-width: 780px) {
+  //   margin: 0 30px;
+  // }
 }
 
 .overlay {

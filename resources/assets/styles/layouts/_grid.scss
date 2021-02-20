@@ -2,6 +2,10 @@
   width: 50%;
   display: flex;
   flex-direction: column;
+
+  // @media screen and (max-width: 780px) {
+  //   width: 100%;
+  // }
 }
 
 .row {

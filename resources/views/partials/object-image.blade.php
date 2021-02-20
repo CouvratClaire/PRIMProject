@@ -8,7 +8,7 @@ $hasVideo = strlen($video) > 0;
     <a class="item-click" href="{{$page->guid}}">
         <div class="video">
             <img class="image gallery_image" src="{{$object['image']}}" />
-            <video class="thevideo gallery_image" loop muted>
+            <video class="thevideo gallery_image" loop muted autoplay>
                 <source src="@asset('images/videos/' . $video . '.mp4')" type="video/mp4">
                 <source src="@asset('images/videos/' . $video . '.webm')" type="video/webm">
                 Your browser does not support de video tag

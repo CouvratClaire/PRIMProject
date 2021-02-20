@@ -8,6 +8,13 @@
         $images = get_field("images")
         ?>
         <div class="containerInside columns">
+            <div class="column-small">
+                <div class="product-title">{{get_the_title()}}</div>
+                <!-- <div class="canvasDescription">{{$descriptionENG}}</div> -->
+                <div class="product-description">{{$descriptionFR}}</div>
+                <div class="product-description"><span class="infos">Année : </span>{{$year}}</div>
+                <div class="product-description"><span class="infos">Location : </span>{{$location}}</div>
+            </div>
             <div class="column-big">
                 @foreach($images as $key => $image)
 
@@ -32,12 +39,6 @@
 
                 @endforeach
             </div>
-            <div class="column-small">
-                <div class="product-title">{{get_the_title()}}</div>
-                <!-- <div class="canvasDescription">{{$descriptionENG}}</div> -->
-                <div class="product-description">{{$descriptionFR}}</div>
-                <div class="product-description"><span class="infos">Année : </span>{{$year}}</div>
-                <div class="product-description"><span class="infos">Location : </span>{{$location}}</div>
-            </div>
+
         </div>
 </article>
