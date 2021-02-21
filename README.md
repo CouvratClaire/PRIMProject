@@ -58,18 +58,18 @@ En ce qui concerne les fichiers 3D:
 
 - Ils doivent être exportés en format .glb et collés dans le dossier /ressources/assets/images du thème
 - Il est nécessaire que les objets 3D soient au centre 0,0,0 de la grille 3D et qu'il soient entre 20cm et 4m de largeur ou de hauteur.
-  Il suffit ensuite de donner leur nom dans le champs "Nom de la scène 3D" du bloc "Product"
+- Il suffit ensuite de donner leur nom dans le champs "Nom de la scène 3D" du bloc "Product"
 
 En ce qui concerne les environnement map:
 
 - Si elles sont en forme de cube, il faut les mettre dans un dossier dans le dossier /ressources/assets/images du thème.
 - Sinon, il suffit de coller l'image dans le dossier /ressources/assets/images du thème.
-  Il suffit ensuite de donner le nom du fichier ou du dossier dans le champs "Nom de l'image de fond" du bloc "Product"
+- Il suffit ensuite de donner le nom du fichier ou du dossier dans le champs "Nom de l'image de fond" du bloc "Product"
 
 En ce qui concernet les vidéos d'animations:
 
-- il faut les coller en format .mp4 ou .webm dans le dossier /ressources/assets/images/videos du thème.
-  Il suffit ensuite de donner le nom de la vidéo dans le champs "Nom de la vidéo" du bloc "Main Gallery"
+- Il faut les coller en format .mp4 ou .webm dans le dossier /ressources/assets/images/videos du thème.
+- Il suffit ensuite de donner le nom de la vidéo dans le champs "Nom de la vidéo" du bloc "Main Gallery"
 
 ## Structure du thème
 
