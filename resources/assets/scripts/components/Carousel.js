@@ -1,39 +1,32 @@
-var Flickity = require("flickity");
-
 /* -------------------------
-    INIT
+    COMPOSANT JS POUR LE SLIDER IMAGE
 ------------------------- */
 
+var Flickity = require("flickity");
+
 $(window).on("load", function () {
+  // Créé un Carousel par ".carousel"
   $(".carousel").each(function (i, el) {
-    console.log("carousel", el);
     new Carousel(el);
   });
 });
 
 function Carousel(el) {
+  // Initialise les variables puis initialise
   var self = this;
   self.el = el;
   self.$el = $(el);
-  // Moche mais nécessaire après un coup d'ajax
   setTimeout(function () {
     self.init();
   }, 400);
 }
 
-Carousel.prototype.getMenuColor = function () {
-  var self = this;
-  self.$el;
-};
-
+// --- FONCTION D'INITIALISATION---
 Carousel.prototype.init = function () {
   var self = this;
-  // var $gallery = $('.gallery')
-  console.log("flickity", self.flickity, "el", self.el);
-  self.getMenuColor();
 
+  // Créé un flickity avec les bonne propriétés
   self.flickity = new Flickity(self.el, {
-    // imagesLoaded: true,
     pageDots: false,
     groupCells: 1,
     cellAlign: "left",
@@ -43,15 +36,12 @@ Carousel.prototype.init = function () {
     autoPlay: 60000,
     pauseAutoPlayOnHover: false,
     selectedAttraction: 0.015,
-    //   setGallerySize: false,
   });
 
-  self.$el.on("change.flickity", function (event, index) {
-    console.log("Slide changed to " + index);
+  // A chaque changement de slide : Va chercher la couleur du menu liéé et modifie la couleur du header.
+  self.$el.on("change.flickity", function () {
     const $selectedCell = $(".is-selected");
     const $color = $selectedCell.data("color");
     $(".header-container").css("color", $color);
-
-    console.log($color);
   });
 };

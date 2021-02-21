@@ -1,14 +1,21 @@
+/* -------------------------
+    COMPOSANT JS GÉRANT L'INTÉGRATION 3D
+------------------------- */
+
+// THREE créé la scène / GLTFLoader permet l'import des modèles / OrbitControls permet à l'utilisateur de se déplacer dans la fenêtre.
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 $(window).on("load", function () {
+  // Créé une class CanvasContainer par classe ".canvasContainer" (nécessaire si plusieurs image avec 3D dans une page)
   $(".canvasContainer").each(function (i, el) {
     new CanvasContainer(el);
   });
 });
 
 function CanvasContainer(el) {
+  // Initialise les variables
   var self = this;
   self.el = el;
   self.$el = $(el);
@@ -23,44 +30,45 @@ function CanvasContainer(el) {
   self.width = self.$image.width();
   self.height = self.$image.height();
 
-  console.log(self.hdri);
-
+  // Lorsqu'on clique sur l'image -> Initialise la 3D
   self.$image.on("click", function () {
     self.$image.css("display", "none");
     self.$closeButton.css("display", "block");
     self.init();
   });
 
+  // Lorsqu'on clique sur closeButton -> Détruit la 3D
   self.$closeButton.on("click", function () {
     console.log("close");
     $("canvas").remove();
     self.$image.css("display", "block");
     self.$closeButton.css("display", "none");
   });
-
-  // self.init();
 }
 
 CanvasContainer.prototype.init = function () {
   var self = this;
 
+  // Créé la fenêtre de rendu. Option : Avec ombre
   var renderer = self.getRenderer({
     castShadow: self.castShadow,
     antialias: true,
   });
+
+  // Ajoute la fenêtre dans le DOM : NECESSAIRE
   self.el.prepend(renderer.domElement);
 
   const scene = new THREE.Scene();
-  // let mode = THREE.EquirectangularRefractionMapping;
   var data = {};
+
+  // Si présence d'une image d'environnement -> Ajoute à la scène
   if (self.hdri) {
     data = self.addBackground({ scene });
   }
 
   console.log("scene Name", self.sceneName);
 
-  // console.log("scene", scene);
-
+  // Initialise les lumières
   {
     self.lightSetUp({
       scene,
@@ -68,21 +76,22 @@ CanvasContainer.prototype.init = function () {
     });
   }
 
-  //ADD MODEL
+  // Charge et ajoute le modèle
   const loader = new GLTFLoader();
   loader.load(
-    "../app/themes/threeWp/dist/images/" + self.sceneName + ".glb", //In order to set up the loader, use relative href
+    "../app/themes/threeWp/dist/images/" + self.sceneName + ".glb", // Pour que le loader fonctionne bien : Besoin du relative href.
     function (gltf) {
       gltf.scene.traverse(function (node) {
         if (node.isMesh) {
-          // console.log(node.name);
-
+          // Si présence d'une environnement map -> Ajoute en variable aux textures du modèle
           if (data.texture && data.mode) {
             node.material.envMap = data.texture;
             node.material.envMap.mapping = data.mode;
           }
 
+          // Technique pour essayer d'avoir du verre plus réaliste
           if (node.material.name.includes("Glass")) {
+            // Ajoute une map d'environnement avec beaucoup de reflets.
             const textureCube = new THREE.CubeTextureLoader()
               .setPath("../app/themes/threeWp/dist/images/pillars/")
               .load([
@@ -96,6 +105,7 @@ CanvasContainer.prototype.init = function () {
 
             textureCube.mapping = THREE.CubeReflectionMapping;
 
+            // Initialise une texture
             node.material = new THREE.MeshPhongMaterial({
               color: node.material.color,
               envMap: textureCube,
@@ -118,7 +128,10 @@ CanvasContainer.prototype.init = function () {
     }
   );
 
+  // Initialise la caméra
   const camera = self.cameraSetUp({ renderer });
+
+  //Initialise les contrôles
   const controls = self.controlsSettings({
     camera,
     renderer,
@@ -126,6 +139,7 @@ CanvasContainer.prototype.init = function () {
     maxAzimuthAngle: Infinity,
   });
 
+  // A chaque frame : Mets à jour les position et rerender.
   var animate = function () {
     requestAnimationFrame(animate);
     controls.update();
@@ -134,6 +148,7 @@ CanvasContainer.prototype.init = function () {
 
   animate();
 
+  // On resize fenêtre -> Update size fenêtre.
   window.addEventListener("resize", onWindowResize, false);
 
   function onWindowResize() {
@@ -152,13 +167,17 @@ CanvasContainer.prototype.init = function () {
   }
 };
 
+// --- FONCTION AJOUT BACKGROUND ---
 CanvasContainer.prototype.addBackground = function ({ scene }) {
   const self = this;
+
+  // Si la texture est un cube
   if (self.hdri.is_cube) {
     const textureCube = new THREE.CubeTextureLoader()
       .setPath("../app/themes/threeWp/dist/images/" + self.hdri.name + "/")
       .load(["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"]);
 
+    // Type de mapping
     textureCube.mapping = THREE.CubeReflectionMapping;
     scene.background = textureCube;
     return { texture: textureCube, mode: THREE.CubeRefractionMapping };
@@ -174,15 +193,12 @@ CanvasContainer.prototype.addBackground = function ({ scene }) {
   }
 };
 
+// --- FONCTION CREATION DE LA FENETRE 3D ---
 CanvasContainer.prototype.getRenderer = function ({ castShadow }) {
   var self = this;
-  // const width = self.$el.innerWidth();
-  // const height = self.$el.innerHeight();
 
-  console.log(self.width, self.height);
-  // const proportion = self.width/ self.height;
   var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setClearColor(0xfffffff, 0); // the default
+  renderer.setClearColor(0xfffffff, 0);
   renderer.autoClear = true;
   if (window.innerWidth < 770) {
     renderer.setSize(self.width, self.height);
@@ -190,7 +206,6 @@ CanvasContainer.prototype.getRenderer = function ({ castShadow }) {
   } else {
     renderer.setSize(self.width, self.height);
   }
-  //allow shadows
   if (castShadow) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
@@ -199,14 +214,12 @@ CanvasContainer.prototype.getRenderer = function ({ castShadow }) {
   return renderer;
 };
 
-CanvasContainer.prototype.lightSetUp = function ({
-  scene,
-  castShadow,
-  debug,
-  bias,
-  spotLightPosition,
-}) {
+// --- FONCTION INITIALISATION DES LUMIÈRES  ---
+CanvasContainer.prototype.lightSetUp = function ({ scene, castShadow }) {
+  // Va chercher les variables du WP
   const lights = this.lights;
+
+  // Créé la lumière directionnelle
   const directional = lights.directional;
   const light = new THREE.DirectionalLight(
     directional.light_color,
@@ -214,6 +227,7 @@ CanvasContainer.prototype.lightSetUp = function ({
   );
   light.position.set(-1, 6, 6);
 
+  // Créé le spotlight
   const spotlight = lights.spotlight;
 
   const spotLight = new THREE.SpotLight(
@@ -221,49 +235,37 @@ CanvasContainer.prototype.lightSetUp = function ({
     spotlight.light_intensity
   );
   spotLight.position.set(2, 3, 1);
-  if (spotLightPosition) {
-    spotLight.position.set(
-      spotLightPosition[0],
-      spotLightPosition[1],
-      spotLightPosition[2]
-    );
-  }
   spotLight.penumbra = 1;
 
+  // Créé la lumière ambiante
   const ambient = lights.ambient;
 
   const hlight = new THREE.AmbientLight(
     ambient.light_color,
     ambient.light_intensity
-  ); // soft white light
+  );
 
+  // Si présence d'ombre -> Ajout de paramètres pour lumière directionnelle et spotlight
   if (castShadow) {
     light.castShadow = true;
-    // white spotlight shining from the side, casting a shadow
 
-    light.shadow.bias = bias ? bias : -0.001;
+    light.shadow.bias = -0.001;
     light.shadow.mapSize.width = 512; // default
     light.shadow.mapSize.height = 512; // default
     light.shadow.camera.near = 0.1; // camera settings
     light.shadow.camera.far = 100; // camera settings
 
     spotLight.castShadow = true;
-    spotLight.shadow.bias = bias ? bias : -0.002;
+    spotLight.shadow.bias = -0.002;
     spotLight.shadow.camera.near = 0.1; // camera settings
     spotLight.shadow.camera.far = 100; // camera settings
-  }
-  if (debug) {
-    //shadow helper
-    const helperDirectional = new THREE.CameraHelper(light.shadow.camera);
-    scene.add(helperDirectional);
-    const helperSpotLight = new THREE.CameraHelper(spotLight.shadow.camera);
-    scene.add(helperSpotLight);
   }
   scene.add(light);
   scene.add(spotLight);
   scene.add(hlight);
 };
 
+// --- FONCTION INITIALISATION DE LA CAMÈRA ---
 CanvasContainer.prototype.cameraSetUp = function () {
   const self = this;
   const fov = 75;
@@ -273,28 +275,26 @@ CanvasContainer.prototype.cameraSetUp = function () {
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
   camera.position.set(0, 1, 1.5);
   camera.lookAt(400, 400, 0);
-  // camera.up.set(0, 0, 0);
-  // camera.view((0, 6, 0));
-  // camera.position.y = 3;
 
-  window.addEventListener(
-    "resize",
-    function () {
-      // if (window.innerWidth < 770) {
-      //   camera.aspect = window.innerWidth / (window.innerHeight * 2);
-      //   camera.updateProjectionMatrix();
-      // } else {
-      //   camera.aspect = window.innerWidth / window.innerHeight;
-      //   camera.updateProjectionMatrix();
-      // }
-      //renderer.setSize(window.innerWidth, window.innerHeight);
-    },
-    false
-  );
+  // window.addEventListener(
+  //   "resize",
+  //   function () {
+  //     // if (window.innerWidth < 770) {
+  //     //   camera.aspect = window.innerWidth / (window.innerHeight * 2);
+  //     //   camera.updateProjectionMatrix();
+  //     // } else {
+  //     //   camera.aspect = window.innerWidth / window.innerHeight;
+  //     //   camera.updateProjectionMatrix();
+  //     // }
+  //     //renderer.setSize(window.innerWidth, window.innerHeight);
+  //   },
+  //   false
+  // );
 
   return camera;
 };
 
+// --- FONCTION CONTRÔLE DES DÉPLACEMENTS ---
 CanvasContainer.prototype.controlsSettings = function ({
   camera,
   renderer,
@@ -312,10 +312,10 @@ CanvasContainer.prototype.controlsSettings = function ({
   controls.dampingFactor = 0.05;
   controls.minDistance = minDistance ? minDistance : 1;
   controls.maxDistance = maxDistance ? maxDistance : 5;
-  //limit vertical rotation
+  // Limite la rotation verticale
   controls.minPolarAngle = minPolarAngle ? minPolarAngle : 0; // radians
   controls.maxPolarAngle = maxPolarAngle ? maxPolarAngle : Math.PI / 2 - 0.1; // radians
-  // //limit horizontal rotation
+  // Limite la rotation horizontale
   controls.minAzimuthAngle = minAzimuthAngle ? minAzimuthAngle : -Math.PI / 2; // radians
   controls.maxAzimuthAngle = maxAzimuthAngle ? maxAzimuthAngle : Math.PI / 2; // radians
 

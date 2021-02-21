@@ -1,3 +1,5 @@
+// --- Style des éléments globaux à l'application ---
+
 body {
   background: white;
   font-family: "Source Sans Pro";
@@ -5,7 +7,6 @@ body {
 
 html {
   font-family: "Source Sans Pro" !important;
-  // background: black;
 }
 
 .row {
@@ -36,9 +37,10 @@ html {
   margin-left: 100px;
   margin-right: 100px;
 
-  // @media screen and (max-width: 780px) {
-  //   margin: 0 30px;
-  // }
+  // mobile
+  @media screen and (max-width: 780px) {
+    margin: 0 30px;
+  }
 }
 
 .overlay {

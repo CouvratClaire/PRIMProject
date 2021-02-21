@@ -1,13 +1,61 @@
+// Fichier lié aux placements
+
 .column-double {
   width: 50%;
   display: flex;
   flex-direction: column;
 
-  // @media screen and (max-width: 780px) {
-  //   width: 100%;
-  // }
+  @media screen and (max-width: 780px) {
+    width: 100%;
+  }
 }
 
 .row {
   display: flex;
+}
+
+.columns {
+  display: flex;
+
+  // mobile
+  @media screen and (max-width: 780px) {
+    display: block;
+  }
+}
+
+.column-big {
+  width: 60%;
+  padding: 0 50px;
+  margin-top: 30px;
+
+  // mobile
+  @media screen and (max-width: 780px) {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.column-small {
+  width: 40%;
+  padding: 0 50px;
+  position: fixed;
+  right: 0;
+  padding-left: 20px;
+  padding-top: 90px;
+
+  // mobile
+  @media screen and (max-width: 780px) {
+    width: 100%;
+    padding: 0;
+    position: relative;
+  }
+}
+
+.about {
+  padding-top: 30px;
+  position: relative;
+}
+
+.about-title {
+  margin-bottom: 40px;
 }

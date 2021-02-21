@@ -1,30 +1,13 @@
 @import "common/variables";
 
-/** Import everything from autoload */
+/** Importe bootstrap : NECESSAIRE */
 @import "./autoload/**/*";
 
-/**
- * Import npm dependencies
- *
- * Prefix your imports with `~` to grab from node_modules/
- * @see https://github.com/webpack-contrib/sass-loader#imports
- */
-// @import "~some-node-module";
-
-/** Import theme styles */
-// @import "base/base.fonts";
+/** Importe les fichiers de style */
 @import "common/global";
-@import "components/buttons";
-@import "components/comments";
-@import "components/forms";
 @import "components/main-gallery";
 @import "components/sleeve-cover";
 @import "components/three-component";
-@import "components/wp-classes";
 @import "layouts/header";
 @import "layouts/grid";
-@import "layouts/sidebar";
 @import "layouts/footer";
-@import "layouts/pages";
-@import "layouts/posts";
-@import "layouts/tinymce";

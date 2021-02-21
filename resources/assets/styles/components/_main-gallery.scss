@@ -1,13 +1,15 @@
+// --- Fichier Style Gallery principale ---
+
 .gallery_item-1 {
   padding: 100px 200px;
   padding-left: 70px;
 
-  // @media screen and (max-width: 780px) {
-  //   padding: 10px 20px !important;
-  // }
+  // mobile
+  @media screen and (max-width: 780px) {
+    padding: 10px 20px !important;
+  }
 
   .left & {
-    //padding: 100px 60px;
     padding-left: 0;
   }
 
@@ -21,12 +23,12 @@
   padding: 100px 200px;
   padding-right: 70px;
 
-  // @media screen and (max-width: 780px) {
-  //   padding: 10px 20px !important;
-  // }
+  // mobile
+  @media screen and (max-width: 780px) {
+    padding: 10px 20px !important;
+  }
 
   .left & {
-    //padding: 100px 60px;
     padding-left: 50px;
     padding-right: 140px;
   }
@@ -50,12 +52,9 @@
   }
 }
 
-// .item-click {
-//   cursor: pointer;
-// }
-
 .container.row.big {
-  // @media screen and (max-width: 780px) {
-  //   display: block;
-  // }
+  // mobile
+  @media screen and (max-width: 780px) {
+    display: block;
+  }
 }

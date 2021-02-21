@@ -1,69 +1,96 @@
-# [Sage](https://roots.io/sage/)
-[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/roots/sage)
-[![devDependency Status](https://img.shields.io/david/dev/roots/sage.svg?style=flat-square)](https://david-dm.org/roots/sage#info=devDependencies)
-[![Build Status](https://img.shields.io/travis/roots/sage.svg?style=flat-square)](https://travis-ci.org/roots/sage)
+## Site de tests d'intégration 3D
 
-Sage is a WordPress starter theme with a modern development workflow.
+## Conditions
 
-## Features
+Pour pouvoir faire fonctionner ce thème, il est nécessaire d'avoir installé les dépendances ci-dessous :
 
-* Sass for stylesheets
-* Modern JavaScript
-* [Webpack](https://webpack.github.io/) for compiling assets, optimizing images, and concatenating and minifying files
-* [Browsersync](http://www.browsersync.io/) for synchronized browser testing
-* [Blade](https://laravel.com/docs/5.6/blade) as a templating engine
-* [Controller](https://github.com/soberwp/controller) for passing data to Blade templates
-* CSS framework (optional): [Bootstrap 4](https://getbootstrap.com/), [Bulma](https://bulma.io/), [Foundation](https://foundation.zurb.com/), [Tachyons](http://tachyons.io/), [Tailwind](https://tailwindcss.com/)
+- [WordPress](https://wordpress.org/) >= 4.7
+- [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3 (with [`php-mbstring`](https://secure.php.net/manual/en/book.mbstring.php) enabled)
+- [Composer](https://getcomposer.org/download/)
+- [Node.js](http://nodejs.org/) >= 8.0.0
+- [Yarn](https://yarnpkg.com/en/docs/install)
 
-See a working example at [roots-example-project.com](https://roots-example-project.com/).
+## Installer le thème dans un wordpress bedrock
 
-## Requirements
+1. Installer Brew, Composer puis Valet sur l'ordinateur
 
-Make sure all dependencies have been installed before moving on:
+```# Install PHP 7.0
+$ brew install homebrew/php/php70
 
-* [WordPress](https://wordpress.org/) >= 4.7
-* [PHP](https://secure.php.net/manual/en/install.php) >= 7.1.3 (with [`php-mbstring`](https://secure.php.net/manual/en/book.mbstring.php) enabled)
-* [Composer](https://getcomposer.org/download/)
-* [Node.js](http://nodejs.org/) >= 8.0.0
-* [Yarn](https://yarnpkg.com/en/docs/install)
+# Install Valet
+$ composer global require laravel/valet
 
-## Theme installation
+# Install DnsMasq and configure Valet to launch on system start
+$ valet install
 
-Install Sage using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
-
-```shell
-# @ app/themes/ or wp-content/themes/
-$ composer create-project roots/sage your-theme-name
+# Install MariaDB
+$ brew install mariadb
 ```
 
-To install the latest development version of Sage, add `dev-master` to the end of the command:
+2. Dans le dossier où l'on veut installer le site wordpress, faire
+   `valet park`
 
-```shell
-$ composer create-project roots/sage your-theme-name dev-master
+3. Créer un site wp avec bedrock :
+
+```
+$ wp package install aaemnnosttv/wp-cli-valet-command:^1.0
+$ wp valet new my-project --project=bedrock
 ```
 
-During theme installation you will have options to update `style.css` theme headers, select a CSS framework, and configure Browsersync.
+4. Vous pouvez ensuite accèder à votre site wp sur http://my-project.test.
 
-## Theme structure
+5. Copier le thème de ce projet et le coller dans le dossier /themes de votre Wordpress
+
+6. Activer le thème
+
+## Utiliser le thème
+
+Pour utiliser le thème une fois activé:
+
+- Créer une page Homepage dans le wordpress.
+- Dans cette page:
+  - Ajouter et remplir le bloc Guthemberg "Cover-Sleeve" si vous désirer un slider de grandes images
+  - Ajouter et remplir le bloc Guthemberg "Main Gallery" avec vos produits
+- Pour chaque produit : Ajouter une page produit (Le nom de la page doit correspondre au champs "Nom de page" du bloc "Main Gallery")
+  - Dans cette page, ajouter et remplir le bloc Guthemberg "Product"
+
+En ce qui concerne les fichiers 3D:
+
+- Ils doivent être exportés en format .glb et collés dans le dossier /ressources/assets/images du thème
+- Il est nécessaire que les objets 3D soient au centre 0,0,0 de la grille 3D et qu'il soient entre 20cm et 4m de largeur ou de hauteur.
+  Il suffit ensuite de donner leur nom dans le champs "Nom de la scène 3D" du bloc "Product"
+
+En ce qui concerne les environnement map:
+
+- Si elles sont en forme de cube, il faut les mettre dans un dossier dans le dossier /ressources/assets/images du thème.
+- Sinon, il suffit de coller l'image dans le dossier /ressources/assets/images du thème.
+  Il suffit ensuite de donner le nom du fichier ou du dossier dans le champs "Nom de l'image de fond" du bloc "Product"
+
+En ce qui concernet les vidéos d'animations:
+
+- il faut les coller en format .mp4 ou .webm dans le dossier /ressources/assets/images/videos du thème.
+  Il suffit ensuite de donner le nom de la vidéo dans le champs "Nom de la vidéo" du bloc "Main Gallery"
+
+## Structure du thème
 
 ```shell
-themes/your-theme-name/   # → Root of your Sage based theme
-├── app/                  # → Theme PHP
+themes/threeWp/   # → Racine du thème
+├── app/                  # → Thème PHP (Vient de sage)
 │   ├── Controllers/      # → Controller files
-│   ├── admin.php         # → Theme customizer setup
-│   ├── filters.php       # → Theme filters
-│   ├── helpers.php       # → Helper functions
-│   └── setup.php         # → Theme setup
-├── composer.json         # → Autoloading for `app/` files
-├── composer.lock         # → Composer lock file (never edit)
-├── dist/                 # → Built theme assets (never edit)
-├── node_modules/         # → Node.js packages (never edit)
+│   ├── admin.php         # → Installation des customization du thème
+│   ├── filters.php       # → Filtres du thèmes
+│   ├── helpers.php       # → Fonctions helpers
+│   └── setup.php         # → Fichier d'installation du thèmes
+├── composer.json         # → Chargement automatique des fichiers de 'app/'
+├── composer.lock         # → Fichier Composer lock (Ne jamais éditer)
+├── dist/                 # → Assets du thème construits (Ne jamais éditer)
+├── node_modules/         # → Node.js packages (Ne jamais éditer)
 ├── package.json          # → Node.js dependencies and scripts
-├── resources/            # → Theme assets and templates
-│   ├── assets/           # → Front-end assets
-│   │   ├── config.json   # → Settings for compiled assets
-│   │   ├── build/        # → Webpack and ESLint config
-│   │   ├── fonts/        # → Theme fonts
+├── resources/            # → Thème assets et templates
+│   ├── assets/           # → Assets Front-End
+│   │   ├── config.json   # → Paramètre pour la compilation des assets
+│   │   ├── build/        # → Webpack et ESLint configuration
+│   │   ├── fonts/        # → Theme polices
 │   │   ├── images/       # → Theme images
 │   │   ├── scripts/      # → Theme JS
 │   │   └── styles/       # → Theme stylesheets
@@ -71,50 +98,23 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   ├── index.php         # → Never manually edit
 │   ├── screenshot.png    # → Theme screenshot for WP admin
 │   ├── style.css         # → Theme meta information
-│   └── views/            # → Theme templates
-│       ├── layouts/      # → Base templates
-│       └── partials/     # → Partial templates
+│   └── views/            # → Theme templates html
+│       ├── blocks/       # → Blocs Guthenberg personalisés
+│       ├── components/   # → Composants des blocs Guthenberg
+│       ├── layouts/      # → Templates de base
+│       └── partials/     # → Templates partiels
 └── vendor/               # → Composer packages (never edit)
 ```
 
-## Theme setup
+## Développement du thème
 
-Edit `app/setup.php` to enable or disable theme features, setup navigation menus, post thumbnail sizes, and sidebars.
+- Lancer `yarn` depuis le répertoire du thème pour installer les dépendances
+- Mettre à jour le fichier `resources/assets/config.json`:
+  - `devUrl` doit être le nom de votre développement local
+  - `publicPath` représente votre structure de dossier WordPress
 
-## Theme development
+### Commandes de construction
 
-* Run `yarn` from the theme directory to install dependencies
-* Update `resources/assets/config.json` settings:
-  * `devUrl` should reflect your local development hostname
-  * `publicPath` should reflect your WordPress folder structure (`/wp-content/themes/sage` for non-[Bedrock](https://roots.io/bedrock/) installs)
-
-### Build commands
-
-* `yarn start` — Compile assets when file changes are made, start Browsersync session
-* `yarn build` — Compile and optimize the files in your assets directory
-* `yarn build:production` — Compile assets for production
-
-## Documentation
-
-* [Sage documentation](https://roots.io/sage/docs/)
-* [Controller documentation](https://github.com/soberwp/controller#usage)
-
-## Contributing
-
-Contributions are welcome from everyone. We have [contributing guidelines](https://github.com/roots/guidelines/blob/master/CONTRIBUTING.md) to help you get started.
-
-## Sage sponsors
-
-Help support our open-source development efforts by [becoming a patron](https://www.patreon.com/rootsdev).
-
-<a href="https://kinsta.com/?kaid=OFDHAJIXUDIV"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" width="200" height="150"></a> <a href="https://k-m.com/"><img src="https://cdn.roots.io/app/uploads/km-digital.svg" alt="KM Digital" width="200" height="150"></a> <a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="itineris" width="200" height="150"></a> <a href="http://www.hbgdesignlab.se/"><img src="https://cdn.roots.io/app/uploads/helsingborgdesignlab.png" alt="Helsingborg Design LAB" with="200" height="150">
-
-## Community
-
-Keep track of development and community news.
-
-* Participate on the [Roots Discourse](https://discourse.roots.io/)
-* Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-* Read and subscribe to the [Roots Blog](https://roots.io/blog/)
-* Subscribe to the [Roots Newsletter](https://roots.io/subscribe/)
-* Listen to the [Roots Radio podcast](https://roots.io/podcast/)
+- `yarn start` — Compile les assets lorsque des changements sont faits dans les fichiers / Démarre la session localhost.
+- `yarn build` — Compile et optimise les fichiers dans le répertoire assets
+- `yarn build:production` — Compile les assets pour une production

@@ -1,3 +1,5 @@
+<!-- |||| Fichier qui créé le bloc Main Gallery: Gallerie principale |||| -->
+
 {{--
   Title: Main Gallery
   Description: Présentation Principale des Oeuvres

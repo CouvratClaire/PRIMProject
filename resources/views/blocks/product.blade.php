@@ -1,3 +1,5 @@
+<!-- |||| Fichier qui créé le bloc Guthenberg Product : Page produit |||| -->
+
 {{--
   Title: Product
   Description: Page détail du produit
@@ -7,5 +9,5 @@
 --}}
 
 <div data-{{ $block['id'] }} class="c-{{ $block['classes'] }}">
-    @include('components.product')
+  @include('components.product')
 </div>
