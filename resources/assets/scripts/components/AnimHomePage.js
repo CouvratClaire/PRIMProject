@@ -16,9 +16,16 @@ if (!url.includes("page")) {
     var productId =
       previousUrl.split("/?").length > 1 ? previousUrl.split("/?")[1] : "";
     var image = $("a[href*='" + productId + "']");
-    $(image).each(function (i, el) {
-      new AnimHomePage(el);
-    });
+    // Si l'ancienne page est page A propos (problème du au type de permalinks)
+    if (productId != "page_id=404") {
+      $(image).each(function (i, el) {
+        if (i == 0) {
+          new AnimHomePage(el);
+        }
+      });
+    } else {
+      $("body").animate({ opacity: 1 }, { duration: 300 });
+    }
   };
 }
 
